@@ -1,4 +1,4 @@
-from .models import Category, Author
+from .models import Category, Author, Book
 from .serializers import CategorySerializer, AuthorSerializer, BookSerializer
 from rest_framework import status, mixins, generics
 
@@ -52,6 +52,36 @@ class AuthorDetail(mixins.RetrieveModelMixin,
                    generics.GenericAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class BookList(mixins.ListModelMixin,
+               mixins.CreateModelMixin,
+               generics.GenericAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class BookDetail(mixins.RetrieveModelMixin,
+                 mixins.UpdateModelMixin,
+                 mixins.DestroyModelMixin,
+                 generics.GenericAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
