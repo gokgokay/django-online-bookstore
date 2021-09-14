@@ -1,5 +1,5 @@
 from django.contrib import admin
-from book.models import Category, Author, Book
+from book.models import Category, Author, Book, Comment
 
 
 @admin.register(Category)
@@ -20,3 +20,8 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ['available', 'created', 'updated']
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['comment', 'rate']

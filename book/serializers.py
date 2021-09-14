@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Author, Book
+from .models import Category, Author, Book, Comment
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -15,6 +15,17 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
+    categories = serializers.StringRelatedField(read_only=True)
+    authors = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Book
         fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    users = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Comment
+        exclude = ['books']
