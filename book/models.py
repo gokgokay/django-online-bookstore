@@ -1,8 +1,5 @@
 import uuid
-
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from rest_framework.authtoken.admin import User
 
 
 class Category(models.Model):
@@ -54,18 +51,3 @@ class Book(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Comment(models.Model):
-    books = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
-    users = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
-    comment = models.TextField()
-    rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('rate',)
-
-    def __str__(self):
-        return self.rate
