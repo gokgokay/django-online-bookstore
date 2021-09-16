@@ -14,18 +14,17 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BookSerializer(serializers.ModelSerializer):
-    categories = serializers.StringRelatedField(read_only=True)
-    authors = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = Book
-        fields = '__all__'
-
-
 class CommentSerializer(serializers.ModelSerializer):
     users = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Comment
         exclude = ['books']
+
+
+class BookSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = '__all__'
