@@ -1,8 +1,7 @@
 import uuid
-
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from rest_framework.authtoken.admin import User
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -68,4 +67,4 @@ class Comment(models.Model):
         ordering = ('rate',)
 
     def __str__(self):
-        return self.rate
+        return str(self.rate)
