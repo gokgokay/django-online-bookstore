@@ -2,39 +2,33 @@ import uuid
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+from core.models import TimeBaseModel
 
 
-class Category(models.Model):
+class Category(TimeBaseModel):
     name = models.CharField(max_length=250, db_index=True)
     slug = models.SlugField(max_length=250, unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
 
 
-class Author(models.Model):
+class Author(TimeBaseModel):
     name = models.CharField(max_length=250, db_index=True)
     slug = models.SlugField(max_length=250, unique=True)
     bio = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('name',)
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
 
-class Book(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Book(TimeBaseModel):
     categories = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE)
     authors = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, db_index=True)
@@ -45,13 +39,11 @@ class Book(models.Model):
     available = models.BooleanField(default=True)
     description = models.TextField()
     language = models.CharField(max_length=250)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('name',)
 
-    def __str__(self):
+    def _str_(self):
         return self.name
 
 
@@ -60,11 +52,9 @@ class Comment(models.Model):
     users = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     comment = models.TextField()
     rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('rate',)
 
-    def __str__(self):
+    def _str_(self):
         return str(self.rate)
