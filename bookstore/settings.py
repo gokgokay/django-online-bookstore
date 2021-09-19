@@ -35,10 +35,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+
     'book.apps.BookConfig',
     'users.apps.UsersConfig',
+    'core.apps.CoreConfig',
+
     'django_extensions'
+    'rest_framework',
 ]
 
 REST_FRAMEWORK = {
