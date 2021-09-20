@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'core.apps.CoreConfig',
 
-    'django_extensions'
+    'django_extensions',
     'rest_framework',
 ]
 
