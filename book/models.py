@@ -1,4 +1,3 @@
-import uuid
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
@@ -11,6 +10,7 @@ class Category(TimeBaseModel):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         return self.name
@@ -23,8 +23,9 @@ class Author(TimeBaseModel):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Authors'
 
-    def _str_(self):
+    def __str__(self):
         return self.name
 
 
@@ -42,8 +43,9 @@ class Book(TimeBaseModel):
 
     class Meta:
         ordering = ('name',)
+        verbose_name_plural = 'Books'
 
-    def _str_(self):
+    def __str__(self):
         return self.name
 
 
@@ -55,6 +57,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('rate',)
+        verbose_name_plural = 'Comments'
 
-    def _str_(self):
+    def __str__(self):
         return str(self.rate)
