@@ -42,11 +42,14 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
 
