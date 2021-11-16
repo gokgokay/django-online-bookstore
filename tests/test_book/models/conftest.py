@@ -2,30 +2,25 @@ import pytest
 
 
 @pytest.fixture
-def new_category(db, category_factory):
-    category = category_factory.create()
-    return category
+def category(db, category_factory):
+    return category_factory.create()
 
 
 @pytest.fixture
-def new_author(db, author_factory):
-    author = author_factory.create()
-    return author
+def author(db, author_factory):
+    return author_factory.create()
 
 
 @pytest.fixture
-def new_book(db, book_factory):
-    book = book_factory.create()
-    return book
+def book(db, book_factory):
+    return book_factory.create()
 
 
 @pytest.fixture
-def new_comment(db, comment_factory):
-    comment = comment_factory.create()
-    return comment
+def comment(db, comment_factory):
+    return comment_factory.create()
 
 
 @pytest.fixture
-def new_user(db, user_factory):
-    user = user_factory.create()
-    return user
+def user(db, user_factory):
+    return user_factory.create()
