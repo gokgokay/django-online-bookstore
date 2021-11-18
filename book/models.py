@@ -15,6 +15,16 @@ class Category(TimeBaseModel):
     def __str__(self):
         return self.name
 
+    @property
+    def to_json(self):
+        return {
+            "id": self.pk,
+            "name": self.name,
+            "slug": self.slug,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }
+
 
 class Author(TimeBaseModel):
     name = models.CharField(max_length=250, db_index=True)
@@ -27,6 +37,17 @@ class Author(TimeBaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def to_json(self):
+        return {
+            "id": self.pk,
+            "name": self.name,
+            "slug": self.slug,
+            "bio": self.bio,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }
 
 
 class Book(TimeBaseModel):
@@ -48,8 +69,25 @@ class Book(TimeBaseModel):
     def __str__(self):
         return self.name
 
+    @property
+    def to_json(self):
+        return {
+            "id": self.pk,
+            "categories": self.categories,
+            "authors": self.authors,
+            "name": self.name,
+            "slug": self.slug,
+            "price": self.price,
+            "stock": self.stock,
+            "available": self.available,
+            "description": self.description,
+            "language": self.language,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }
 
-class Comment(models.Model):
+
+class Comment(TimeBaseModel):
     books = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
     users = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     comment = models.TextField()
@@ -61,3 +99,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.rate)
+
+    @property
+    def to_json(self):
+        return {
+            "id": self.pk,
+            "books": self.books,
+            "users": self.users,
+            "comment": self.comment,
+            "rate": self.rate,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }
