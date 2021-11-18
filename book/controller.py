@@ -13,6 +13,14 @@ class CategoryController:
         category.save()
         return category
 
+    def list_categories_by_filters(self, name=None):
+        query = Category.objects.all()
+        if name:
+            query = query.filter(name=name)
+        return query.all()
+
+
+
 
 class AuthorController:
 
@@ -23,6 +31,12 @@ class AuthorController:
         author = Author(**data)
         author.save()
         return author
+
+    def list_authors_by_filters(self, name=None):
+        query = Author.objects.all()
+        if name:
+            query = query.filter(name=name)
+        return query.all()
 
 
 class BookController:
@@ -35,6 +49,18 @@ class BookController:
         book.save()
         return book
 
+    def list_books_by_filters(self, name=None, category=None, author=None, language=None):
+        query = Book.objects.all()
+        if name:
+            query = query.filter(name=name)
+        if category:
+            query = query.filter(categories=category)
+        if author:
+            query = query.filter(authors=author)
+        if language:
+            query = query.filter(language=language)
+        return query.all()
+
 
 class CommentController:
 
@@ -46,6 +72,16 @@ class CommentController:
         comment.save()
         return comment
 
+    def list_comments_by_filters(self, book=None, user=None, rate=None):
+        query = Comment.objects.all()
+        if book:
+            query = query.filter(books=book)
+        if user:
+            query = query.filter(users=user)
+        if rate:
+            query = query.filter(rate=rate)
+        return query.all()
+
 
 class UserController:
 
@@ -56,6 +92,13 @@ class UserController:
         user = User(**data)
         user.save()
         return user
+
+    def list_users_by_filters(self, first_name=None):
+        query = User.objects.all()
+        if first_name:
+            query = query.filter(first_name=first_name)
+        return query.all()
+
 
 
 category_controller = CategoryController()
