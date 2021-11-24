@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'book.apps.BookConfig',
-    'users.apps.UsersConfig',
+    'profile.apps.UsersConfig',
     'core.apps.CoreConfig',
 
     'django_extensions',

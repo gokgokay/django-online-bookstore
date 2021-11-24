@@ -1,4 +1,5 @@
 import pytest
+from apiclient import APIClient
 from faker import Faker
 from pytest_factoryboy import register
 from django.test.client import Client
@@ -49,3 +50,8 @@ def admin_client(db, admin_user):
 def user_client(db, user):
     client = Client().force_login(user)
     return client
+
+
+@pytest.fixture
+def api_client():
+    return APIClient
