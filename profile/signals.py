@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from users.models import Profile, ProfileStatus
+from profile.models import Profile, ProfileStatus
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token

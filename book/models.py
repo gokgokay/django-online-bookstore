@@ -105,7 +105,7 @@ class Comment(TimeBaseModel):
         return {
             "id": self.pk,
             "books": self.books,
-            "users": self.users,
+            "profile": self.users,
             "comment": self.comment,
             "rate": self.rate,
             "created_at": self.created_at,

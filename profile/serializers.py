@@ -1,4 +1,4 @@
-from users.models import Profile, ProfileStatus
+from profile.models import Profile, ProfileStatus
 from rest_framework import serializers
 
 

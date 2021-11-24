@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('comment', models.TextField()),
                 ('rate', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10)])),
                 ('books', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='book.book')),
-                ('users', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to=settings.AUTH_USER_MODEL)),
+                ('profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name_plural': 'Comments',

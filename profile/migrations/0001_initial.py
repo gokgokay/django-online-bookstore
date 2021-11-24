@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('message', models.CharField(max_length=250)),
-                ('user_profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.profile')),
+                ('user_profile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='profile.profile')),
             ],
             options={
                 'verbose_name_plural': 'Profile Statuses',

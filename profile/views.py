@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from users.models import Profile
-from users.serializers import ProfileSerializer
+from profile.models import Profile
+from profile.serializers import ProfileSerializer
 
 
 class ProfileList(generics.ListAPIView):
