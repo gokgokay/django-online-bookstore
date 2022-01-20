@@ -1,11 +1,23 @@
-from django.shortcuts import render
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from profile.models import Profile
-from profile.serializers import ProfileSerializer
+from rest_framework import serializers, status, generics
+from rest_framework.exceptions import NotFound
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from book.permissions import IsAdminUserOrReadOnly
+from .models import Profile
+from .renderer import ProfileJSONRenderer
+from .serializers import ProfileSerializer
 
 
-class ProfileList(generics.ListAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+class ProfileRetrieveAPIView(RetrieveAPIView):
+    pass
+
+
+class ProfileFollowAPIView(APIView):
+    pass
+
+
+class ProfileCreateList(generics.ListCreateAPIView):
+    pass
