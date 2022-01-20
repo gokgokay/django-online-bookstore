@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-
 from book.models import Category, Book, Comment, Author
 
 
@@ -18,8 +17,6 @@ class CategoryController:
         if name:
             query = query.filter(name=name)
         return query.all()
-
-
 
 
 class AuthorController:
@@ -98,7 +95,6 @@ class UserController:
         if first_name:
             query = query.filter(first_name=first_name)
         return query.all()
-
 
 
 category_controller = CategoryController()
