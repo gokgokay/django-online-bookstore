@@ -12,10 +12,12 @@ class CategoryController:
         category.save()
         return category
 
-    def list_categories_by_filters(self, name=None):
+    def list_categories_by_filters(self, name=None, slug=None):
         query = Category.objects.all()
         if name:
             query = query.filter(name=name)
+        if slug:
+            query = query.filter(slug=slug)
         return query.all()
 
 
