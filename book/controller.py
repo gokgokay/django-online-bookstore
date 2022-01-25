@@ -13,7 +13,7 @@ class CategoryController:
         return category
 
     def list_categories_by_filters(self, name=None, slug=None):
-        query = Category.objects.all()
+        query = Category.objects
         if name:
             query = query.filter(name=name)
         if slug:
@@ -32,7 +32,7 @@ class AuthorController:
         return author
 
     def list_authors_by_filters(self, name=None):
-        query = Author.objects.all()
+        query = Author.objects
         if name:
             query = query.filter(name=name)
         return query.all()
@@ -49,7 +49,7 @@ class BookController:
         return book
 
     def list_books_by_filters(self, name=None, category=None, author=None, language=None):
-        query = Book.objects.all()
+        query = Book.objects
         if name:
             query = query.filter(name=name)
         if category:
@@ -72,7 +72,7 @@ class CommentController:
         return comment
 
     def list_comments_by_filters(self, book=None, user=None, rate=None):
-        query = Comment.objects.all()
+        query = Comment.objects
         if book:
             query = query.filter(books=book)
         if user:
@@ -93,7 +93,7 @@ class UserController:
         return user
 
     def list_users_by_filters(self, first_name=None):
-        query = User.objects.all()
+        query = User.objects
         if first_name:
             query = query.filter(first_name=first_name)
         return query.all()
