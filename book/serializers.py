@@ -5,13 +5,13 @@ from .models import Category, Author, Book, Comment
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['name']
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = '__all__'
+        fields = ['name', 'bio']
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -23,8 +23,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
+    #comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Book
-        fields = '__all__'
+        exclude = ['image', 'slug']
