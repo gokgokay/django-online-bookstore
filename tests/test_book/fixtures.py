@@ -53,6 +53,12 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     username = factory.Faker('name')
     password = factory.Faker('password')
+    first_name = factory.Faker('name')
+    last_name = factory.Faker('name')
+    email = factory.Faker('email')
+    is_staff = factory.Faker('boolean')
+    is_active = factory.Faker('boolean')
+    date_joined = factory.Faker('date_time')
 
 
 class CommentFactory(factory.django.DjangoModelFactory):
