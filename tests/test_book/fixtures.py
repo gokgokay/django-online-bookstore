@@ -53,6 +53,12 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     username = factory.Faker('name')
     password = factory.Faker('password')
+    first_name = factory.Faker('name')
+    last_name = factory.Faker('name')
+    email = factory.Faker('email')
+    is_staff = factory.Faker('boolean')
+    is_active = factory.Faker('boolean')
+    date_joined = factory.Faker('date_time')
 
 
 class CommentFactory(factory.django.DjangoModelFactory):
@@ -62,7 +68,7 @@ class CommentFactory(factory.django.DjangoModelFactory):
     books = factory.SubFactory(BookFactory)
     users = factory.SubFactory(UserFactory)
     comment = factory.Faker('text')
-    rate = factory.Faker('random_int', min=0, max=10)
+    rate = factory.Faker('random_int', min=1, max=10)
 
 
 @pytest.fixture
