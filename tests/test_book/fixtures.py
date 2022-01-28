@@ -68,7 +68,7 @@ class CommentFactory(factory.django.DjangoModelFactory):
     books = factory.SubFactory(BookFactory)
     users = factory.SubFactory(UserFactory)
     comment = factory.Faker('text')
-    rate = factory.Faker('random_int', min=0, max=10)
+    rate = factory.Faker('random_int', min=1, max=10)
 
 
 @pytest.fixture
