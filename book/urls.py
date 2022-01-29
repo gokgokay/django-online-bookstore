@@ -7,8 +7,8 @@ urlpatterns = [
     path('author/', views.AuthorCreateList.as_view(), name='author-create-list'),
     path('author/<int:pk>', views.AuthorDetail.as_view(), name='author-detail'),
     path('book/', views.BookCreateList.as_view(), name='book-create-list'),
-    path('book/<uuid:pk>', views.BookDetail.as_view(), name='book-detail'),
-    path('book/<uuid:book_pk>/comment', views.CommentCreate.as_view(), name='comment-create'),
+    path('book/<int:pk>', views.BookDetail.as_view(), name='book-detail'),
+    path('book/<int:pk>/comment', views.CommentCreate.as_view(), name='comment-create'),
     path('comment/<int:pk>', views.CommentDetail.as_view(), name='comment-detail'),
 
 ]
