@@ -3,11 +3,10 @@ from rest_framework import serializers
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
-    bio = serializers.CharField(allow_blank=True, required=False)
-    image = serializers.ImageField(read_only=True)
+    user = serializers.CharField(read_only=True)
+    follows = serializers.CharField(read_only=True)
+    favorites = serializers.CharField(read_only=True)
 
     class Meta:
         model = Profile
-        fields = ('username', 'bio', 'image')
-        read_only_fields = ('username',)
+        fields = ['user', 'follows', 'favorites', 'bio']
