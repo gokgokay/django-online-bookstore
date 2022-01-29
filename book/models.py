@@ -60,4 +60,4 @@ class Comment(TimeBaseModel):
         verbose_name_plural = 'Comments'
 
     def __str__(self):
-        return str(self.rate)
+        return self.comment
