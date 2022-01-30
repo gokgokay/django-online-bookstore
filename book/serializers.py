@@ -14,17 +14,21 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['name', 'bio']
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    users = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = Comment
-        exclude = ['books']
-
-
 class BookSerializer(serializers.ModelSerializer):
-    #comments = CommentSerializer(many=True, read_only=True)
+    comments = serializers.StringRelatedField(many=True, read_only=True)
+    categories = serializers.CharField()
+    authors = serializers.CharField()
 
     class Meta:
         model = Book
         exclude = ['image', 'slug']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    books = serializers.CharField()
+    users = serializers.CharField()
+    rate = serializers.IntegerField(min_value=1, max_value=10)
+
+    class Meta:
+        model = Comment
+        fields = ['books', 'users', 'comment', 'rate']
