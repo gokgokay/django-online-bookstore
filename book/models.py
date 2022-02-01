@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+from faker.utils.text import slugify
 from core.models import TimeBaseModel
 
 
@@ -15,6 +16,11 @@ class Category(TimeBaseModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        value = self.name
+        self.slug = slugify(str(value), allow_unicode=True)
+        super().save(*args, **kwargs)
+
 
 class Author(TimeBaseModel):
     name = models.CharField(max_length=250, db_index=True)
@@ -27,6 +33,11 @@ class Author(TimeBaseModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        value = self.name
+        self.slug = slugify(str(value), allow_unicode=True)
+        super().save(*args, **kwargs)
 
 
 class Book(TimeBaseModel):
@@ -47,6 +58,11 @@ class Book(TimeBaseModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        value = self.name
+        self.slug = slugify(str(value), allow_unicode=True)
+        super().save(*args, **kwargs)
 
 
 class Comment(TimeBaseModel):
