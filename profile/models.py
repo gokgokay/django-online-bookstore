@@ -7,7 +7,7 @@ from core.models import TimeBaseModel
 
 class Profile(TimeBaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    follows = models.ManyToManyField(User, related_name='followed_by', symmetrical=False)
+    follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False)
     favorites = models.ManyToManyField(Book, related_name='favorited_by')
     bio = models.TextField(blank=True)
     image = models.ImageField(upload_to='profiles/%Y/%m/%d', blank=True)
