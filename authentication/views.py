@@ -1,7 +1,6 @@
 from rest_framework import status, generics
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from knox.models import AuthToken
 from .renderers import UserJSONRenderer
 from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
 
@@ -16,8 +15,7 @@ class RegisterAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         return Response({"user": serializer.data,
-                         "status": status.HTTP_201_CREATED,
-                         "token": AuthToken.objects.create(user)[1]})
+                         "status": status.HTTP_201_CREATED})
 
 
 class LoginAPIView(generics.GenericAPIView):
