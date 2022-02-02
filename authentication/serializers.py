@@ -31,3 +31,13 @@ class LoginSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('User was not found')
 
         return {'email': user.email, 'username': user.username}
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+    bio = serializers.CharField(read_only=True, source='profile.bio')
+    profile = ProfileSerializer(write_only=True)
+
+    class Meta:
+        model = User
+        field = ['username', 'password', 'profile', 'bio']
