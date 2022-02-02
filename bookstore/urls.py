@@ -8,8 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('book.urls')),
     path('api/', include('profile.urls')),
-    path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('api-token-auth/', views.obtain_auth_token),
+    path('api/', include('authentication.urls')),
 ]
 
 if settings.DEBUG == True:
