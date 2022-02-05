@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -9,6 +10,14 @@ urlpatterns = [
     path('api/', include('book.urls')),
     path('api/', include('profile.urls')),
     path('api/', include('authentication.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^api/users/login', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^rest-auth/password/reset/', include('rest_auth.urls')),
+    url(r'^rest-auth/password/reset/confirm/', include('rest_auth.urls')),
+    url(r'^rest-auth/password/change/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/verify-email/', include('rest_auth.urls')),
+    url(r'^rest-auth/logout', include('rest_auth.urls')),
 ]
 
 if settings.DEBUG == True:
