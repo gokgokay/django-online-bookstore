@@ -22,7 +22,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        exclude = ['image', 'slug']
+        exclude = ['image', 'slug', 'created_at', 'updated_at']
 
 
 class CommentSerializer(serializers.ModelSerializer):
