@@ -1,4 +1,5 @@
 from rest_framework import mixins, generics, status
+from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.viewsets import GenericViewSet
 from book.permissions import IsAdminUserOrReadOnly
@@ -47,3 +48,17 @@ class BookListAPIView(generics.ListAPIView):
         return Response({
             'status': status.HTTP_200_OK,
             'books': serializer.data})
+
+
+class CommentListAPIView(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = CommentSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer_data = self.get_queryset()
+        serializer = self.serializer_class(serializer_data, many=True)
+
+        return Response({
+            'status': status.HTTP_200_OK,
+            'comments': serializer.data})
