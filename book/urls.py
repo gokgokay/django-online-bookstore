@@ -1,14 +1,14 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
-from .views import CategoryViewSet, AuthorViewSet, BookViewSet, CommentViewSet
+from .views import CategoryListAPIView, AuthorListAPIView, BookListAPIView, CommentListAPIView, CommentsDestroyAPIView
 
 router = DefaultRouter()
-router.register(r'category', CategoryViewSet)
-router.register(r'author', AuthorViewSet)
-router.register(r'book', BookViewSet)
-router.register(r'comment', CommentViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('category/', CategoryListAPIView.as_view(), name='categories'),
+    path('author/', AuthorListAPIView.as_view(), name='authors'),
+    path('book/', BookListAPIView.as_view(), name='books'),
+    path('comment/', CommentListAPIView.as_view(), name='comments'),
 ]
