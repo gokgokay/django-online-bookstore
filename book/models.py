@@ -41,8 +41,8 @@ class Author(TimeBaseModel):
 
 
 class Book(TimeBaseModel):
-    categories = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE)
-    authors = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='book', on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, related_name='book', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, db_index=True)
     slug = models.SlugField(max_length=250, unique=True)
     image = models.ImageField(upload_to='books/%Y/%m/%d', blank=True)
@@ -66,8 +66,8 @@ class Book(TimeBaseModel):
 
 
 class Comment(TimeBaseModel):
-    books = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
-    users = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, related_name='comment', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='comment', on_delete=models.CASCADE)
     comment = models.TextField()
     rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
 
