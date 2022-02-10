@@ -2,16 +2,16 @@ from django.contrib.auth.models import User
 from django.db import models
 from book.models import Book
 from core.models import TimeBaseModel
+from django_countries.fields import CountryField
 
 
 class Profile(TimeBaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    follow = models.ManyToManyField('self', related_name='profile', symmetrical=False)
-    favorite = models.ManyToManyField(Book, related_name='profile')
+    follow = models.ManyToManyField('self', related_name='profile', blank=True, symmetrical=False)
+    favorite = models.ManyToManyField(Book, related_name='profile', blank=True)
     bio = models.TextField(blank=True)
     phone = models.CharField(blank=True, max_length=150)
-    city = models.CharField(blank=True, max_length=150)
-    country = models.CharField(blank=True, max_length=150)
+    country = CountryField(blank=True, max_length=150)
     image = models.ImageField(blank=True, upload_to='uploads', default='default-profile-image.jpg')
 
     class Meta:
