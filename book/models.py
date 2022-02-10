@@ -77,10 +77,9 @@ class Comment(TimeBaseModel):
     book = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)
     body = models.TextField(max_length=1000)
-    rate = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
 
     class Meta:
-        ordering = ('rate',)
+        ordering = ('user',)
         verbose_name_plural = 'Comments'
 
     def __str__(self):
