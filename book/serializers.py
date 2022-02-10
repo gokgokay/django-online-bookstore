@@ -16,9 +16,9 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    comments = serializers.StringRelatedField(many=True, read_only=True)
-    categories = serializers.StringRelatedField(read_only=True)
-    authors = serializers.CharField(read_only=True)
+    comment = serializers.StringRelatedField(many=True, read_only=True)
+    category = serializers.StringRelatedField(read_only=True)
+    author = serializers.CharField(read_only=True)
 
     class Meta:
         model = Book
@@ -26,10 +26,10 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    books = serializers.StringRelatedField(read_only=True)
-    users = serializers.StringRelatedField(read_only=True)
+    book = serializers.StringRelatedField(read_only=True)
+    user = serializers.StringRelatedField(read_only=True)
     rate = serializers.IntegerField(min_value=1, max_value=10)
 
     class Meta:
         model = Comment
-        fields = ['id', 'books', 'users', 'comment', 'rate']
+        fields = ['id', 'book', 'user', 'comment', 'rate']

@@ -24,4 +24,4 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['comment', 'rate']
+    list_display = ['rate']
