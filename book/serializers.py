@@ -16,20 +16,38 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    comment = serializers.StringRelatedField(many=True, read_only=True)
-    category = serializers.StringRelatedField(read_only=True)
     author = serializers.CharField(read_only=True)
+    slug = serializers.SlugField(required=False)
+    comments = serializers.StringRelatedField(read_only=True, many=True)
+    category = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Book
-        exclude = ['image', 'slug', 'created_at', 'updated_at']
+        fields = [
+            'author',
+            'category',
+            'slug',
+            'price',
+            'stock',
+            'available',
+            'language',
+            'comments',
+            'description',
+            'created_at',
+            'updated_at']
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    book = serializers.StringRelatedField(read_only=True)
     user = serializers.StringRelatedField(read_only=True)
-    rate = serializers.IntegerField(min_value=1, max_value=10)
 
     class Meta:
         model = Comment
-        fields = ['id', 'book', 'user', 'comment', 'rate']
+        fields = ['id', 'user', 'body']
+
+    def create(self, validated_data):
+        book = self.context['book']
+        user = self.context['user']
+
+        return Comment.objects.create(book=book, user=user, **validated_data)
+
+
