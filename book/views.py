@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
 from .models import Category, Author, Book, Comment
 from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -55,13 +56,13 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CommentSerializer
 
-    def create(self, request, book_slug=None):
+    def create(self, request, book_slug=None, *args, **kwargs):
         data = request.data
         context = {'user': request.user}
 
         try:
             context['book'] = Book.objects.get(slug=book_slug)
-        except Book.DoesNotExist:
+        except ObjectDoesNotExist:
             raise NotFound('No book found with this slug')
 
         serializer = self.serializer_class(data=data, context=context)

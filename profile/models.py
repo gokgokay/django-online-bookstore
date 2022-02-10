@@ -1,37 +1,43 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from book.models import Book
 from core.models import TimeBaseModel
+from django_countries.fields import CountryField
 
 
 class Profile(TimeBaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False)
-    favorites = models.ManyToManyField(Book, related_name='favorited_by')
+    follow = models.ManyToManyField('self', related_name='profile', blank=True, symmetrical=False)
+    favorite = models.ManyToManyField(Book, related_name='profile', blank=True)
     bio = models.TextField(blank=True)
-    image = models.ImageField(upload_to='profiles/%Y/%m/%d', blank=True)
+    phone = models.CharField(blank=True, max_length=150)
+    country = CountryField(blank=True, max_length=150)
+    image = models.ImageField(blank=True, upload_to='uploads', default='default-profile-image.jpg')
+
+    class Meta:
+        ordering = ('user',)
+        verbose_name_plural = 'Profiles'
 
     def __str__(self):
         return self.user.username
 
-    def follow(self, profile):
-        self.follows.add(profile)
+    def follow_user(self, profile):
+        self.follow.add(profile)
 
-    def unfollow(self, profile):
-        self.follows.remove(profile)
+    def unfollow_user(self, profile):
+        self.follow.remove(profile)
 
-    def is_following(self, profile):
-        return self.follows.filter(id=profile.id).exists()
+    def is_following_user(self, profile):
+        return self.follow.filter(id=profile.id).exists()
 
     def is_followed_by(self, profile):
-        return self.followed_by.filter(id=profile.id).exists()
+        return self.profile.follow.filter(id=profile.id).exists()
 
-    def favorite(self, book):
-        self.favorites.add(book)
+    def favorite_user(self, book):
+        self.favorite.add(book)
 
-    def unfavorite(self, book):
-        self.favorites.remove(book)
+    def unfavorite_user(self, book):
+        self.favorite.remove(book)
 
-    def has_favorited(self, book):
-        return self.favorites.filter(id=book.id).exists()
+    def has_favorited_user(self, book):
+        return self.favorite.filter(id=book.id).exists()

@@ -52,7 +52,7 @@ class Book(TimeBaseModel):
     category = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE)
     author = models.ForeignKey(Author, related_name='books', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, db_index=True)
-    image = models.URLField(blank=True)
+    image = models.ImageField(blank=True, upload_to='uploads', default='default-book-image.jpg')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=10)
     available = models.BooleanField(default=True)
