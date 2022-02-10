@@ -1,4 +1,4 @@
-from rest_framework import mixins, generics, status
+from rest_framework import mixins, generics, status, viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.viewsets import GenericViewSet
@@ -62,3 +62,27 @@ class CommentListAPIView(generics.ListAPIView):
         return Response({
             'status': status.HTTP_200_OK,
             'comments': serializer.data})
+
+
+class CommentsListCreateAPIView(generics.ListCreateAPIView):
+    lookup_url = 'book_slug'
+    queryset = Comment.objects.select_related('book', 'user')
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    serializer_class = CommentSerializer
+
+    def create(self, request, book_slug=None):
+        data = request.data
+        context = {'user': request.user}
+
+        try:
+            context['book'] = Book.objects.get(slug=book_slug)
+        except Book.DoesNotExist:
+            raise NotFound('No book found with this slug')
+
+        serializer = self.serializer_class(data=data, context=context)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({
+            'comment': serializer.data,
+            'status': status.HTTP_201_CREATED})
