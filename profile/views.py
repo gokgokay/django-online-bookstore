@@ -16,15 +16,13 @@ class ProfileFollowAPIView(APIView):
 
     def post(self, request, username=None):
         follower = self.request.user
-
+        username = self.kwargs['username']
+        import pdb;pdb.set_trace()
         try:
             followee = Profile.objects.get(user__username=username)  # check this line for getting followee
         except Profile.DoesNotExist:
             raise NotFound('A profile with this username was not found.')
 
-        if follower.user.username is followee.user.username:
-            raise serializers.ValidationError('You can not follow yourself.')
-        follower.follow_user(followee)
 
         serializer = self.serializer_class(followee, context={
             'request': request
