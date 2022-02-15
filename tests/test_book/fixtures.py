@@ -1,15 +1,13 @@
 import factory
 import pytest
-from faker import Factory
 from faker import Faker
-from django.contrib.auth.models import User
 from book.controller import category_controller as category
 from book.controller import author_controller as author
 from book.controller import book_controller as book
 from book.controller import comment_controller as comment
 from book.controller import user_controller as user
-
 from book.models import Category, Author, Book, Comment
+from tests.test_profile.fixtures import UserFactory
 
 faker = Faker()
 
@@ -19,7 +17,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
         model = Category
 
     name = factory.Faker('word')
-    slug = factory.Faker('slug')
+    slug = factory.Faker('slug', value=name)
 
 
 class AuthorFactory(factory.django.DjangoModelFactory):
@@ -27,48 +25,33 @@ class AuthorFactory(factory.django.DjangoModelFactory):
         model = Author
 
     name = factory.Faker('word')
-    slug = factory.Faker('slug')
     bio = factory.Faker('text')
+    slug = factory.Faker('slug', value=name)
 
 
 class BookFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Book
 
-    categories = factory.SubFactory(CategoryFactory)
-    authors = factory.SubFactory(AuthorFactory)
+    category = factory.SubFactory(CategoryFactory)
+    author = factory.SubFactory(AuthorFactory)
     name = factory.Faker('word')
-    slug = factory.Faker('slug')
+    #image = factory.Faker('image_url')
     price = factory.Faker('random_int')
     stock = factory.Faker('random_int')
     available = factory.Faker('boolean')
     description = factory.Faker('text')
-    language = factory.Faker('word')
-    image = factory.Faker('image_url')
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = User
-
-    username = factory.Faker('name')
-    password = factory.Faker('password')
-    first_name = factory.Faker('name')
-    last_name = factory.Faker('name')
-    email = factory.Faker('email')
-    is_staff = factory.Faker('boolean')
-    is_active = factory.Faker('boolean')
-    date_joined = factory.Faker('date_time')
+    language = factory.Faker('random_choices', elements=['Turkish', 'English', 'German', 'Chinese', 'Arabic'])
+    slug = factory.Faker('slug', value=name)
 
 
 class CommentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Comment
 
-    books = factory.SubFactory(BookFactory)
-    users = factory.SubFactory(UserFactory)
-    comment = factory.Faker('text')
-    rate = factory.Faker('random_int', min=1, max=10)
+    book = factory.SubFactory(BookFactory)
+    user = factory.SubFactory(UserFactory)
+    body = factory.Faker('text')
 
 
 @pytest.fixture
