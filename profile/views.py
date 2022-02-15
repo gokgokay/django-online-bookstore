@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers, status, generics, mixins
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import RetrieveAPIView, GenericAPIView
@@ -15,14 +16,11 @@ class ProfileFollowAPIView(APIView):
     serializer_class = ProfileSerializer
 
     def post(self, request, username=None):
-        follower = self.request.user
-        username = self.kwargs['username']
-        import pdb;pdb.set_trace()
+        user = self.request.user
         try:
             followee = Profile.objects.get(user__username=username)  # check this line for getting followee
-        except Profile.DoesNotExist:
+        except ObjectDoesNotExist:
             raise NotFound('A profile with this username was not found.')
-
 
         serializer = self.serializer_class(followee, context={
             'request': request
