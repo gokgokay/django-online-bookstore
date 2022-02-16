@@ -16,14 +16,7 @@ class ProfileFollowAPIView(APIView):
     serializer_class = ProfileSerializer
 
     def post(self, request, username=None):
-        user = self.request.user
-        try:
-            followee = Profile.objects.get(user__username=username)  # check this line for getting followee
-        except ObjectDoesNotExist:
-            raise NotFound('A profile with this username was not found.')
+        pass
 
-        serializer = self.serializer_class(followee, context={
-            'request': request
-        })
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def delete(self, request, username=None):
+        pass
