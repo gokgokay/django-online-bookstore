@@ -26,10 +26,10 @@ class ProfileFollowAPIView(APIView):
         try:
             followee = Profile.objects.get(user__username=username)
         except ObjectDoesNotExist:
-            raise NotFound('No profile found with this username!')
+            raise NotFound('No profile found with this username.')
 
         if followee.is_followed_by(follower):
-            raise serializers.ValidationError('You already follow this user')
+            raise serializers.ValidationError('You already follow this user.')
 
         if follower.pk is followee.pk:
             raise serializers.ValidationError('You can not follow yourself.')
@@ -41,3 +41,25 @@ class ProfileFollowAPIView(APIView):
         return Response({
             'followee': serializer.data,
             'status': status.HTTP_201_CREATED})
+
+    def delete(self, request, username=None):
+        follower = self.request.user.profile
+
+        try:
+            followee = Profile.objects.get(user__username=username)
+        except ObjectDoesNotExist:
+            raise NotFound('No profile found with this username.')
+
+        if not followee.is_followed_by(follower):
+            raise serializers.ValidationError('You already unfollow this user.')
+
+        if follower.pk is followee.pk:
+            raise serializers.ValidationError('You can not unfollow yourself.')
+
+        follower.unfollow(followee)
+
+        serializer = self.serializer_class(followee, context={'request': request})
+
+        return Response({
+            'followee': serializer.data,
+            'status': status.HTTP_200_OK})
