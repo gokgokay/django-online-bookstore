@@ -8,8 +8,6 @@ class Profile(TimeBaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorite_books = models.ManyToManyField(Book, related_name='favorites', blank=True)
     follows = models.ManyToManyField('self', related_name='followed_by', blank=True, symmetrical=False)
-    follower_count = models.IntegerField(default=0)
-    following_count = models.IntegerField(default=0)
     bio = models.TextField(blank=True)
     phone = models.CharField(blank=True, max_length=150)
     image = models.ImageField(blank=True, upload_to='uploads', default='default-profile-image.jpg')
@@ -28,7 +26,7 @@ class Profile(TimeBaseModel):
         self.follows.remove(profile)
 
     def is_followed_by(self, profile):
-        return self.profile.follow.filter(id=profile.id).exists()
+        return self.followed_by.filter(pk=profile.pk).exists()
 
     def favorite(self, book):
         self.favorite_books.add(book)

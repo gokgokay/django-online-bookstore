@@ -1,12 +1,12 @@
-from rest_framework import status
 from rest_framework.exceptions import NotFound
-from rest_framework.generics import RetrieveAPIView, ListAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.views import APIView
 from .models import Profile
-from .permissions import IsOwnerOrReadOnly
 from .serializers import ProfileSerializer
-from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+from rest_framework import serializers, status
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class ListProfileView(ListAPIView):
@@ -16,11 +16,28 @@ class ListProfileView(ListAPIView):
     ordering_fields = 'timestamp'
 
 
-class UpdateRetrieveProfileView(RetrieveUpdateAPIView):
-    queryset = Profile.objects.all()
+class ProfileFollowAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
     serializer_class = ProfileSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, AllowAny)
 
-    def get_object(self):
-        return get_object_or_404(self.get_queryset(), user__username=self.kwargs.get('username'))
-    
+    def post(self, request, username=None):
+        follower = self.request.user.profile
+
+        try:
+            followee = Profile.objects.get(user__username=username)
+        except ObjectDoesNotExist:
+            raise NotFound('No profile found with this username!')
+
+        if followee.is_followed_by(follower):
+            raise serializers.ValidationError('You already follow this user')
+
+        if follower.pk is followee.pk:
+            raise serializers.ValidationError('You can not follow yourself.')
+
+        follower.follow(followee)
+
+        serializer = self.serializer_class(followee, context={'request': request})
+
+        return Response({
+            'followee': serializer.data,
+            'status': status.HTTP_201_CREATED})
