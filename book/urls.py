@@ -9,6 +9,7 @@ from .views import (
 
 urlpatterns = [
     path('category/', CategoryListAPIView.as_view(), name='categories'),
+    path('language/', BookListAPIView.as_view(), name='languages'),
     path('author/', AuthorListAPIView.as_view(), name='authors'),
     path('book/', BookListAPIView.as_view(), name='books'),
     path('book/<book_slug>/comment/', CommentsListCreateAPIView.as_view(), name='comment'),

@@ -1,9 +1,15 @@
 from django.contrib import admin
-from book.models import Category, Author, Book, Comment
+from book.models import Category, Author, Book, Comment, Language
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
 
@@ -24,4 +30,4 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['profile']
