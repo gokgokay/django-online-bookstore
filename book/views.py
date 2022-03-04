@@ -66,13 +66,13 @@ class BookListAPIView(generics.ListAPIView):
 
 class CommentsListCreateAPIView(generics.ListCreateAPIView):
     lookup_url = 'book_slug'
-    queryset = Comment.objects.select_related('book', 'user')
+    queryset = Comment.objects.select_related('book', 'profile')
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CommentSerializer
 
     def create(self, request, book_slug=None, *args, **kwargs):
         data = request.data
-        context = {'user': request.user}
+        context = {'profile': request.profile}
 
         try:
             context['book'] = Book.objects.get(slug=book_slug)

@@ -44,14 +44,14 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(read_only=True)
+    profile = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'body']
+        fields = ['id', 'profile', 'body']
 
     def create(self, validated_data):
         book = self.context['book']
-        user = self.context['user']
+        profile = self.context['profile']
 
-        return Comment.objects.create(book=book, user=user, **validated_data)
+        return Comment.objects.create(book=book, profile=profile, **validated_data)

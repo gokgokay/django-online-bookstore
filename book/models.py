@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from faker.utils.text import slugify
 from core.models import TimeBaseModel
+from profile.models import Profile
 
 
 class Category(TimeBaseModel):
@@ -58,9 +59,9 @@ class Author(TimeBaseModel):
 
 
 class Book(TimeBaseModel):
-    category = models.ForeignKey(Category, related_name='categories', on_delete=models.CASCADE)
-    author = models.ForeignKey(Author, related_name='authors', on_delete=models.CASCADE)
-    language = models.ForeignKey(Language, related_name='languages', on_delete=models.CASCADE)
+    category = models.ForeignKey('book.Category', related_name='categories', on_delete=models.CASCADE)
+    author = models.ForeignKey('book.Author', related_name='authors', on_delete=models.CASCADE)
+    language = models.ForeignKey('book.Language', related_name='languages', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, db_index=True)
     image = models.ImageField(blank=True, upload_to='uploads', default='default-book-image.jpg')
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -83,12 +84,12 @@ class Book(TimeBaseModel):
 
 
 class Comment(TimeBaseModel):
-    book = models.ForeignKey(Book, related_name='books', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='users', on_delete=models.CASCADE)
+    book = models.ForeignKey('book.Book', related_name='books', on_delete=models.CASCADE)
+    profile = models.ForeignKey('profile.Profile', related_name='users', on_delete=models.CASCADE, default=None)
     body = models.TextField(max_length=1000)
 
     class Meta:
-        ordering = ('user',)
+        ordering = ('profile',)
         verbose_name_plural = 'Comments'
 
     def __str__(self):

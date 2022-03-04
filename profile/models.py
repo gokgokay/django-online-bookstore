@@ -1,12 +1,15 @@
 from django.contrib.auth.models import User
 from django.db import models
-from book.models import Book
 from core.models import TimeBaseModel
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from book.models import Book
 
 
 class Profile(TimeBaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    favorite_books = models.ManyToManyField(Book, related_name='favorites', blank=True)
+    favorite_books = models.ManyToManyField('book.Book', related_name='favorited_by', blank=True)
     follows = models.ManyToManyField('self', related_name='followed_by', blank=True, symmetrical=False)
     bio = models.TextField(blank=True)
     phone = models.CharField(blank=True, max_length=150)
