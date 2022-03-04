@@ -1,9 +1,6 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.contrib.auth.models import User
 from faker.utils.text import slugify
 from core.models import TimeBaseModel
-from profile.models import Profile
 
 
 class Category(TimeBaseModel):
@@ -84,8 +81,8 @@ class Book(TimeBaseModel):
 
 
 class Comment(TimeBaseModel):
-    book = models.ForeignKey('book.Book', related_name='books', on_delete=models.CASCADE)
-    profile = models.ForeignKey('profile.Profile', related_name='users', on_delete=models.CASCADE, default=None)
+    book = models.ForeignKey('book.Book', related_name='comments', on_delete=models.CASCADE)
+    profile = models.ForeignKey('profile.Profile', related_name='comments', on_delete=models.CASCADE, default=None)
     body = models.TextField(max_length=1000)
 
     class Meta:
