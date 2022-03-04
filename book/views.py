@@ -3,8 +3,8 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
-from .models import Category, Author, Book, Comment
-from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer
+from .models import Category, Author, Book, Comment, Language
+from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -20,6 +20,20 @@ class CategoryListAPIView(generics.ListAPIView):
         return Response({
             'status': status.HTTP_200_OK,
             'categories': serializer.data})
+
+
+class LanguageListAPIView(generics.ListAPIView):
+    queryset = Language.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = LanguageSerializer
+
+    def list(self, request, *args, **kwargs):
+        serializer_data = self.get_queryset()
+        serializer = self.serializer_class(serializer_data, many=True)
+
+        return Response({
+            'status': status.HTTP_200_OK,
+            'languages': serializer.data})
 
 
 class AuthorListAPIView(generics.ListAPIView):
