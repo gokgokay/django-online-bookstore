@@ -6,8 +6,8 @@ from book.controller import author_controller as author
 from book.controller import book_controller as book
 from book.controller import comment_controller as comment
 from book.controller import user_controller as user
-from book.models import Category, Author, Book, Comment
-from tests.test_profile.fixtures import UserFactory
+from book.models import Category, Author, Book, Comment, Language
+from tests.test_profile.fixtures import UserFactory, ProfileFactory
 
 faker = Faker()
 
@@ -15,6 +15,14 @@ faker = Faker()
 class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Category
+
+    name = factory.Faker('word')
+    slug = factory.Faker('slug', value=name)
+
+
+class LanguageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Language
 
     name = factory.Faker('word')
     slug = factory.Faker('slug', value=name)
@@ -35,13 +43,13 @@ class BookFactory(factory.django.DjangoModelFactory):
 
     category = factory.SubFactory(CategoryFactory)
     author = factory.SubFactory(AuthorFactory)
+    language = factory.SubFactory(LanguageFactory)
     name = factory.Faker('word')
-    #image = factory.Faker('image_url')
+    # image = factory.Faker('image_url')
     price = factory.Faker('random_int')
     stock = factory.Faker('random_int')
     available = factory.Faker('boolean')
     description = factory.Faker('text')
-    language = factory.Faker('random_choices', elements=['Turkish', 'English', 'German', 'Chinese', 'Arabic'])
     slug = factory.Faker('slug', value=name)
 
 
@@ -50,7 +58,7 @@ class CommentFactory(factory.django.DjangoModelFactory):
         model = Comment
 
     book = factory.SubFactory(BookFactory)
-    user = factory.SubFactory(UserFactory)
+    profile = factory.SubFactory(ProfileFactory)
     body = factory.Faker('text')
 
 

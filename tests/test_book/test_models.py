@@ -15,7 +15,7 @@ def test_book_str(db, book_factory, check):
 
 def test_comment_str(db, comment_factory, check):
     comment = comment_factory.create()
-    check.equal(comment.__str__(), f"{str(comment.rate)}")
+    check.equal(comment.__str__(), f"{comment.comment}")
 
 
 def test_user_str(db, user_factory, check):

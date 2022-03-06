@@ -21,6 +21,7 @@ def test_get_book(db, book_controller, book_factory, check):
 
 
 def test_get_comment(db, comment_controller, comment_factory, check):
+    import pdb;pdb.set_trace()
     comment = comment_factory()
     expected_comment = comment_controller.get_comment(comment.id)
     check.equal(comment, expected_comment)
@@ -108,17 +109,17 @@ def test_create_author(db, author_controller, check, faker):
     check.equal(author, expected_author)
 
 
-def test_create_book(db, book_controller, check, faker, author_factory, category_factory):
+def test_create_book(db, book_controller, check, faker, author_factory, category_factory, language_factory):
     data = dict(
-        categories=category_factory(),
-        authors=author_factory(),
+        category=category_factory(),
+        author=author_factory(),
+        language=language_factory(),
         name=faker.word(),
         slug=faker.slug(),
         price=faker.random_int(),
         stock=faker.random_int(),
         available=faker.boolean(),
         description=faker.text(),
-        language=faker.word(),
         image=faker.image_url(),
     )
     book = book_controller.create_book(**data)
