@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from book.models import Category, Book, Comment, Author
+from book.models import Category, Book, Comment, Author, Language
 
 
 class CategoryController:
@@ -14,6 +14,25 @@ class CategoryController:
 
     def list_categories_by_filters(self, name=None, slug=None):
         query = Category.objects
+        if name:
+            query = query.filter(name=name)
+        if slug:
+            query = query.filter(slug=slug)
+        return query.all()
+
+
+class LanguageController:
+
+    def get_language(self, language_id):
+        return Language.objects.get(pk=language_id)
+
+    def create_language(self, **data):
+        language = Language(**data)
+        language.save()
+        return language
+
+    def list_languages_by_filters(self, name=None, slug=None):
+        query = Language.objects
         if name:
             query = query.filter(name=name)
         if slug:
