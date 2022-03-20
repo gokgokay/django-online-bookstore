@@ -1,7 +1,9 @@
 import factory
+import pytest
 from django.contrib.auth.models import User
 from faker import Faker
 from profile.models import Profile
+from profile.controller import user_controller as user
 
 faker = Faker()
 
@@ -27,3 +29,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     bio = factory.Faker('word')
     phone = factory.Faker('word')
+
+
+@pytest.fixture
+def user_controller(db):
+    return user
