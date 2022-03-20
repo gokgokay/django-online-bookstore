@@ -1,6 +1,9 @@
+import factory
+from django.db.models import signals
 from profile.serializers import ProfileSerializer
 
 
+@factory.django.mute_signals(signals.pre_save, signals.post_save)
 def test_serializer_profile(db, profile_factory, check):
     profile = profile_factory()
     serializer_profile = {
