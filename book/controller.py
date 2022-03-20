@@ -119,7 +119,7 @@ class UserController:
 
 
 category_controller = CategoryController()
+language_controller = LanguageController()
 author_controller = AuthorController()
 book_controller = BookController()
 comment_controller = CommentController()
-user_controller = UserController()
