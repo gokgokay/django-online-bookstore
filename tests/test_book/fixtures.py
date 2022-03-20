@@ -2,10 +2,10 @@ import factory
 import pytest
 from faker import Faker
 from book.controller import category_controller as category
+from book.controller import language_controller as language
 from book.controller import author_controller as author
 from book.controller import book_controller as book
 from book.controller import comment_controller as comment
-from book.controller import user_controller as user
 from book.models import Category, Author, Book, Comment, Language
 from tests.test_profile.fixtures import UserFactory, ProfileFactory
 
@@ -68,6 +68,11 @@ def category_controller(db):
 
 
 @pytest.fixture
+def language_controller(db):
+    return language
+
+
+@pytest.fixture
 def author_controller(db):
     return author
 
@@ -80,8 +85,3 @@ def book_controller(db):
 @pytest.fixture
 def comment_controller(db):
     return comment
-
-
-@pytest.fixture
-def user_controller(db):
-    return user
