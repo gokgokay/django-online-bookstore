@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from faker import Faker
 from profile.models import Profile
 from profile.controller import user_controller as user
+from profile.controller import profile_controller as profile
 
 faker = Faker()
 
@@ -34,3 +35,8 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 @pytest.fixture
 def user_controller(db):
     return user
+
+
+@pytest.fixture
+def profile_controller(db):
+    return profile
