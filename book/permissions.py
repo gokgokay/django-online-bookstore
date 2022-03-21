@@ -6,4 +6,4 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.user.id == request.user.id
+        return obj.profile.id == request.user.profile.id

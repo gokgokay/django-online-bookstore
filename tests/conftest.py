@@ -3,7 +3,8 @@ from apiclient import APIClient
 from faker import Faker
 from pytest_factoryboy import register
 from django.test.client import Client
-from tests.test_book.fixtures import AuthorFactory, BookFactory, CategoryFactory, CommentFactory, UserFactory
+from tests.test_book.fixtures import AuthorFactory, BookFactory, CategoryFactory, CommentFactory, UserFactory, \
+    LanguageFactory
 from tests.test_profile.fixtures import ProfileFactory
 
 faker = Faker()
@@ -14,6 +15,7 @@ register(CategoryFactory)
 register(CommentFactory)
 register(UserFactory)
 register(ProfileFactory)
+register(LanguageFactory)
 
 
 @pytest.fixture()
