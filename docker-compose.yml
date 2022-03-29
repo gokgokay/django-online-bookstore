@@ -19,6 +19,6 @@ services:
     environment:
       - POSTGRES_NAME=bookstore
       - POSTGRES_USER=gokaygok
-      - POSTRES_PASSWORD=12345
+      - POSTGRES_PASSWORD=12345
     depends_on:
       - db
