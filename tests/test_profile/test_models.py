@@ -42,13 +42,23 @@ def test_profile_unfollow(db, profile_factory, check):
 
 @factory.django.mute_signals(signals.pre_save, signals.post_save)
 def test_profile_is_followed_by(db, profile_factory, check):
-    pass
+    follower = profile_factory()
+    followee = profile_factory()
+
+    follower.follow(followee)
+    check.is_(True, followee.is_followed_by(follower))
+
+    follower.unfollow(followee)
+    check.is_(False, followee.is_followed_by(follower))
 
 
 @factory.django.mute_signals(signals.pre_save, signals.post_save)
 def test_profile_favorite(db, profile_factory, book_factory, check):
     profile = profile_factory()
     book = book_factory()
+
+    check.is_(0, profile.favorite_books.count())
+
     profile.favorite(book)
     check.is_(1, profile.favorite_books.count())
 
@@ -64,6 +74,8 @@ def test_profile_unfavorite(db, profile_factory, book_factory, check):
     book2 = book_factory()
     profile.favorite(book)
     profile.favorite(book2)
+
+    check.is_(2, profile.favorite_books.count())
 
     profile.unfavorite(book)
     check.is_(1, profile.favorite_books.count())
