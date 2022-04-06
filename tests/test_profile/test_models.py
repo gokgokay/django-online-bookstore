@@ -73,5 +73,12 @@ def test_profile_unfavorite(db, profile_factory, book_factory, check):
 
 
 @factory.django.mute_signals(signals.pre_save, signals.post_save)
-def test_profile_has_favorited(db, profile_factory, check):
-    pass
+def test_profile_has_favorited(db, profile_factory, book_factory, check):
+    profile = profile_factory()
+    book = book_factory()
+
+    profile.favorite(book)
+    check.is_(True, profile.has_favorited(book))
+
+    profile.unfavorite(book)
+    check.is_(False, profile.has_favorited(book))
