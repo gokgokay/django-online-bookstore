@@ -15,6 +15,14 @@ class ListProfileView(ListAPIView):
     serializer_class = ProfileSerializer
     ordering_fields = 'timestamp'
 
+    def list(self, request, *args, **kwargs):
+        serializer_data = self.get_queryset()
+        serializer = self.serializer_class(serializer_data, many=True)
+
+        return Response({
+            'status': status.HTTP_200_OK,
+            'profiles': serializer.data})
+
 
 class ProfileFollowAPIView(APIView):
     permission_classes = (IsAuthenticated,)
