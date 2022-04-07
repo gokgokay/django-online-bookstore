@@ -70,6 +70,14 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CommentSerializer
 
+    def list(self, request, *args, **kwargs):
+        serializer_data = self.get_queryset()
+        serializer = self.serializer_class(serializer_data, many=True)
+
+        return Response({
+            'status': status.HTTP_200_OK,
+            'comments': serializer.data})
+
     def create(self, request, book_slug=None, *args, **kwargs):
         data = request.data
         context = {'profile': request.user.profile}
@@ -84,8 +92,8 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
         serializer.save()
 
         return Response({
-            'comment': serializer.data,
-            'status': status.HTTP_201_CREATED})
+            'status': status.HTTP_201_CREATED,
+            'comments': serializer.data})
 
 
 class CommentUpdateDestroyAPIView(generics.DestroyAPIView,
