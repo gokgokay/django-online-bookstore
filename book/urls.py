@@ -4,12 +4,13 @@ from .views import (
     AuthorListAPIView,
     BookListAPIView,
     CommentsListCreateAPIView,
-    CommentUpdateDestroyAPIView)
+    CommentUpdateDestroyAPIView,
+    LanguageListAPIView)
 
 
 urlpatterns = [
     path('category/', CategoryListAPIView.as_view(), name='categories'),
-    path('language/', BookListAPIView.as_view(), name='languages'),
+    path('language/', LanguageListAPIView.as_view(), name='languages'),
     path('author/', AuthorListAPIView.as_view(), name='authors'),
     path('book/', BookListAPIView.as_view(), name='books'),
     path('book/<book_slug>/comment/', CommentsListCreateAPIView.as_view(), name='comment'),

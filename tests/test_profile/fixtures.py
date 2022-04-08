@@ -13,10 +13,10 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    username = factory.Faker('name')
+    username = factory.Faker('first_name')
     password = factory.Faker('password')
-    first_name = factory.Faker('name')
-    last_name = factory.Faker('name')
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
     email = factory.Faker('email')
     is_staff = factory.Faker('boolean')
     is_active = factory.Faker('boolean')
