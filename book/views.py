@@ -92,7 +92,7 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
         serializer.save()
 
         return Response({
-            'status': status.HTTP_201_CREATED,
+            'status': status.HTTP_200_OK,
             'comments': serializer.data})
 
 

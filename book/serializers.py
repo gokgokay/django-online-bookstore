@@ -38,17 +38,16 @@ class BookSerializer(serializers.ModelSerializer):
             'available',
             'language',
             'comments',
-            'description',
-            'created_at',
-            'updated_at']
+            'description', ]
 
 
 class CommentSerializer(serializers.ModelSerializer):
     profile = serializers.StringRelatedField(read_only=True)
+    book = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'profile', 'body']
+        fields = ['profile', 'book', 'body']
 
     def create(self, validated_data):
         book = self.context['book']

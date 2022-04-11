@@ -58,4 +58,4 @@ def user_client(db, user):
 
 @pytest.fixture
 def api_client():
-    return APIClient
+    return APIClient()
