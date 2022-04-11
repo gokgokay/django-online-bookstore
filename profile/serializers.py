@@ -3,12 +3,11 @@ from rest_framework import serializers
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
+    username = serializers.CharField(source='user.username', read_only=True)
 
     class Meta:
         model = Profile
         fields = ['username']
-        read_only_fields = ('username',)
 
     def update(self, instance, validated_data):
         instance.bio = validated_data.get('bio', instance.bio)
