@@ -1,11 +1,11 @@
 import factory
 import pytest
 from faker import Faker
-from book.controller import category_controller as category
-from book.controller import language_controller as language
-from book.controller import author_controller as author
-from book.controller import book_controller as book
-from book.controller import comment_controller as comment
+from book.controllers import category_controller as category
+from book.controllers import language_controller as language
+from book.controllers import author_controller as author
+from book.controllers import book_controller as book
+from book.controllers import comment_controller as comment
 from book.models import Category, Author, Book, Comment, Language
 from tests.test_profile.fixtures import UserFactory, ProfileFactory
 

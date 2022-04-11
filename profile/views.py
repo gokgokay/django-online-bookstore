@@ -47,8 +47,8 @@ class ProfileFollowAPIView(APIView):
         serializer = self.serializer_class(followee, context={'request': request})
 
         return Response({
-            'followee': serializer.data,
-            'status': status.HTTP_201_CREATED})
+            'status': status.HTTP_200_OK,
+            'followee': serializer.data, })
 
     def delete(self, request, username=None):
         follower = self.request.user.profile
@@ -69,5 +69,5 @@ class ProfileFollowAPIView(APIView):
         serializer = self.serializer_class(followee, context={'request': request})
 
         return Response({
-            'followee': serializer.data,
-            'status': status.HTTP_200_OK})
+            'status': status.HTTP_200_OK,
+            'followee': serializer.data, })

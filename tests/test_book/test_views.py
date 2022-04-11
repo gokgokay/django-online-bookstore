@@ -4,41 +4,41 @@ from django.db.models import signals
 
 
 class TestCategoryListAPIView:
-    endpoint = '/api/category/'
 
     def test_list(self, db, api_client, category_factory, check):
+        endpoint = '/api/category/'
         category_factory.create_batch(5)
-        response = api_client().get(self.endpoint)
+        response = api_client.get(endpoint)
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['categories']))
 
 
 class TestLanguageListAPIView:
-    endpoint = '/api/language/'
 
     def test_list(self, db, api_client, language_factory, check):
+        endpoint = '/api/language/'
         language_factory.create_batch(5)
-        response = api_client().get(self.endpoint)
+        response = api_client.get(endpoint)
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['languages']))
 
 
 class TestAuthorListAPIView:
-    endpoint = '/api/author/'
 
     def test_list(self, db, api_client, author_factory, check):
+        endpoint = '/api/author/'
         author_factory.create_batch(5)
-        response = api_client().get(self.endpoint)
+        response = api_client.get(endpoint)
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['authors']))
 
 
 class TestBookListAPIView:
-    endpoint = '/api/book/'
 
     def test_list(self, db, api_client, book_factory, check):
+        endpoint = '/api/book/'
         book_factory.create_batch(5)
-        response = api_client().get(self.endpoint)
+        response = api_client.get(endpoint)
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['books']))
 
@@ -49,10 +49,35 @@ class TestCommentsListCreateAPIView:
     def test_list(self, db, api_client, comment_factory, check):
         endpoint = '/api/book/<book_slug>/comment/'
         comment_factory.create_batch(5)
-        response = api_client().get(endpoint)
+        response = api_client.get(endpoint)
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['comments']))
 
     @factory.django.mute_signals(signals.pre_save, signals.post_save)
-    def test_create(self, db, api_client, comment_factory, check, user_factory):
-        pass
+    def test_create(self, db, api_client, comment_factory, book_factory, profile_factory, check):
+        book = book_factory()
+        profile = profile_factory()
+        comment = comment_factory.build(book=book, profile=profile)
+        endpoint = f'/api/book/{comment.book.slug}/comment/'
+
+        data = {
+            'book': comment.book.id,
+            'profile': comment.profile.id,
+            'body': comment.body
+        }
+
+        api_client.force_authenticate(comment.profile.user)
+        response = api_client.post(endpoint, data=data, format='json')
+
+        expected_data = {
+            'status': response.status_code,
+            'comments':
+                {
+                    'book': comment.book.name,
+                    'profile': comment.profile.user.username,
+                    'body': comment.body
+                }
+        }
+
+        check.equal(200, response.status_code)
+        check.equal(expected_data, json.loads(response.content))

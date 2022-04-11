@@ -3,8 +3,8 @@ import pytest
 from django.contrib.auth.models import User
 from faker import Faker
 from profile.models import Profile
-from profile.controller import user_controller as user
-from profile.controller import profile_controller as profile
+from profile.controllers import user_controller as user
+from profile.controllers import profile_controller as profile
 
 faker = Faker()
 
