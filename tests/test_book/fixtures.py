@@ -7,7 +7,7 @@ from book.controllers import author_controller as author
 from book.controllers import book_controller as book
 from book.controllers import comment_controller as comment
 from book.models import Category, Author, Book, Comment, Language
-from tests.test_profile.fixtures import ProfileFactory
+from tests.test_profile.fixtures import UserFactory, ProfileFactory
 
 faker = Faker()
 
