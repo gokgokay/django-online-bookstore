@@ -9,9 +9,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('book.urls')),
     path('api/', include('profile.urls')),
-    url(r'^api/', include('rest_auth.urls')),
-    url(r'^api/register/', include('rest_auth.registration.urls')),
-    url(r'^api/logout/', include('rest_auth.urls')),
+    path('api/', include('rest_auth.urls')),
+    path('api/register/', include('rest_auth.registration.urls')),
+    path('api/logout/', include('rest_auth.urls')),
 ]
 
 if settings.DEBUG == True:
