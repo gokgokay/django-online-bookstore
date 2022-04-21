@@ -5,19 +5,19 @@ from .models import Category, Author, Book, Comment, Language
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name']
+        fields = ['name']
 
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
-        fields = ['id', 'name']
+        fields = ['name']
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['id', 'name', 'bio']
+        fields = ['name', 'bio']
 
 
 class BookSerializer(serializers.ModelSerializer):

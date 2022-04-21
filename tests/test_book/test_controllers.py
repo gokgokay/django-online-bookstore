@@ -1,8 +1,11 @@
 import factory
 from django.db.models import signals
-
-from tests.test_book.fixtures import book_controller, language_controller, comment_controller, author_controller, \
-    category_controller
+from tests.test_book.fixtures import (
+    book_controller,
+    language_controller,
+    comment_controller,
+    author_controller,
+    category_controller)
 
 
 def test_get_category(db, category_controller, category_factory, check):
