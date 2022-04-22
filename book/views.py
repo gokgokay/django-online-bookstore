@@ -4,8 +4,13 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
 from .models import Category, Author, Book, Comment, Language
-from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer
 from django.core.exceptions import ObjectDoesNotExist
+from .serializers import (
+    CategorySerializer,
+    AuthorSerializer,
+    BookSerializer,
+    CommentSerializer,
+    LanguageSerializer)
 
 
 class CategoryListAPIView(generics.ListAPIView):
