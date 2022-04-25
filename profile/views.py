@@ -7,11 +7,12 @@ from .serializers import ProfileSerializer
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from django.core.exceptions import ObjectDoesNotExist
+from profile.controllers import profile_controller
 
 
 class ListProfileView(ListAPIView):
+    queryset = profile_controller.list_profiles_by_filters()
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     ordering_fields = 'timestamp'
 
