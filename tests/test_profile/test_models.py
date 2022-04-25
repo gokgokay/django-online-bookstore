@@ -17,6 +17,9 @@ def test_user_str(db, user_factory, check):
 def test_profile_follow(db, profile_factory, check):
     follower = profile_factory()
     followee = profile_factory()
+
+    check.is_(0, follower.follows.count())
+
     follower.follow(followee)
     check.is_(1, follower.follows.count())
 

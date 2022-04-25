@@ -1,6 +1,5 @@
 import factory
 from django.db.models import signals
-
 from book.models import Category, Language, Author, Book
 
 
