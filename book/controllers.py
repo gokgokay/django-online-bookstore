@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from book.models import Category, Book, Comment, Author, Language
 
 
