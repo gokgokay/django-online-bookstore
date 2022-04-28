@@ -3,6 +3,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
+from .models import Book, Comment
 from django.core.exceptions import ObjectDoesNotExist
 from book.controllers import (
     category_controller,
