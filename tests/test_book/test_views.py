@@ -81,3 +81,36 @@ class TestCommentsListCreateAPIView:
 
         check.equal(200, response.status_code)
         check.equal(expected_data, json.loads(response.content))
+
+
+class TestCommentUpdateDestroyAPIView:
+
+    @factory.django.mute_signals(signals.pre_save, signals.post_save)
+    def test_update(self, db, api_client, comment_factory, book_factory, profile_factory, check, faker):
+        book = book_factory()
+        profile = profile_factory()
+        comment = comment_factory.create(book=book, profile=profile)
+        endpoint = f'/api/book/{comment.book.slug}/comment/{comment.pk}/'
+
+        data = {
+            'book': comment.book.id,
+            'profile': comment.profile.id,
+            'body': faker.text(),
+        }
+
+        api_client.force_authenticate(comment.profile.user)
+        response = api_client.patch(endpoint, data=data, format='json')
+
+        expected_data = {
+            'id': response.data['id'],
+            'profile': response.data['profile'],
+            'book': response.data['book'],
+            'body': response.data['body'],
+        }
+
+        check.equal(200, response.status_code)
+        check.equal(expected_data, json.loads(response.content))
+
+    @factory.django.mute_signals(signals.pre_save, signals.post_save)
+    def test_destroy(self, db, api_client, comment_factory, book_factory, profile_factory, check):
+        pass
