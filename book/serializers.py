@@ -41,6 +41,15 @@ class BookSerializer(serializers.ModelSerializer):
             'description', ]
 
 
+class FavoriteBookSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(read_only=True)
+    author = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Book
+        fields = ['name', 'author']
+
+
 class CommentSerializer(serializers.ModelSerializer):
     profile = serializers.StringRelatedField(read_only=True)
     book = serializers.StringRelatedField(read_only=True)

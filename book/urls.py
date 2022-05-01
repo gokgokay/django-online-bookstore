@@ -16,5 +16,5 @@ urlpatterns = [
     path('book/', BookListAPIView.as_view(), name='books'),
     path('book/<book_slug>/comment/', CommentsListCreateAPIView.as_view(), name='comment'),
     path('book/<book_slug>/comment/<comment_pk>/', CommentUpdateDestroyAPIView.as_view(), name='comment'),
-    path('book/<book_slug>/favorite/', BookFavoriteAPIView.as_view(), name='favorite')
+    path('book/<book_slug>/favorite/', BookFavoriteAPIView.as_view(), name='favorite'),
 ]

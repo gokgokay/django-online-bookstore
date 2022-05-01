@@ -3,6 +3,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
+from book.serializers import FavoriteBookSerializer
 from .models import Book, Comment
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
@@ -118,7 +119,7 @@ class CommentUpdateDestroyAPIView(generics.DestroyAPIView,
 
 class BookFavoriteAPIView(APIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = BookSerializer
+    serializer_class = FavoriteBookSerializer
 
     def post(self, request, book_slug=None):
         profile = request.user.profile
