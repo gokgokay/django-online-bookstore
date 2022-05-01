@@ -1,10 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from core.models import TimeBaseModel
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from book.models import Book
 
 
 class Profile(TimeBaseModel):

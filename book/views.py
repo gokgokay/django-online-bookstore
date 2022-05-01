@@ -3,13 +3,24 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
-from .models import Category, Author, Book, Comment, Language
-from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer
+from .models import Book, Comment
 from django.core.exceptions import ObjectDoesNotExist
+from book.controllers import (
+    category_controller,
+    language_controller,
+    author_controller,
+    book_controller,
+    comment_controller)
+from .serializers import (
+    CategorySerializer,
+    AuthorSerializer,
+    BookSerializer,
+    CommentSerializer,
+    LanguageSerializer)
 
 
 class CategoryListAPIView(generics.ListAPIView):
-    queryset = Category.objects.all()
+    queryset = category_controller.list_categories_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
 
@@ -23,7 +34,7 @@ class CategoryListAPIView(generics.ListAPIView):
 
 
 class LanguageListAPIView(generics.ListAPIView):
-    queryset = Language.objects.all()
+    queryset = language_controller.list_languages_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = LanguageSerializer
 
@@ -37,7 +48,7 @@ class LanguageListAPIView(generics.ListAPIView):
 
 
 class AuthorListAPIView(generics.ListAPIView):
-    queryset = Author.objects.all()
+    queryset = author_controller.list_authors_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = AuthorSerializer
 
@@ -51,7 +62,7 @@ class AuthorListAPIView(generics.ListAPIView):
 
 
 class BookListAPIView(generics.ListAPIView):
-    queryset = Book.objects.all()
+    queryset = book_controller.list_books_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = BookSerializer
 
@@ -101,4 +112,4 @@ class CommentUpdateDestroyAPIView(generics.DestroyAPIView,
     lookup_url_kwarg = 'comment_pk'
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
+    queryset = comment_controller.list_comments_by_filters()

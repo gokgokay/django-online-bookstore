@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from book.models import Category, Book, Comment, Author, Language
 
 
@@ -101,26 +100,8 @@ class CommentController:
         return query.all()
 
 
-class UserController:
-
-    def get_user(self, user_id):
-        return User.objects.get(pk=user_id)
-
-    def create_user(self, **data):
-        user = User(**data)
-        user.save()
-        return user
-
-    def list_users_by_filters(self, first_name=None):
-        query = User.objects
-        if first_name:
-            query = query.filter(first_name=first_name)
-        return query.all()
-
-
 category_controller = CategoryController()
 language_controller = LanguageController()
 author_controller = AuthorController()
 book_controller = BookController()
 comment_controller = CommentController()
-user_controller = UserController()
