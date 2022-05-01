@@ -6,7 +6,6 @@ from tests.test_profile.fixtures import ProfileFactory, UserFactory
 from rest_framework.test import APIClient
 from tests.test_book.fixtures import AuthorFactory, BookFactory, CategoryFactory, CommentFactory, LanguageFactory
 
-faker = Faker()
 
 register(AuthorFactory)
 register(BookFactory)
@@ -18,7 +17,13 @@ register(LanguageFactory)
 
 
 @pytest.fixture
-def user(db, django_user_model, django_username_field):
+def faker():
+    faker = Faker()
+    return faker
+
+
+@pytest.fixture
+def user(db, django_user_model, django_username_field, faker):
     UserModel = django_user_model
     username_field = django_username_field
 
@@ -31,7 +36,7 @@ def user(db, django_user_model, django_username_field):
 
 
 @pytest.fixture
-def admin_user(db, django_user_model, django_username_field):
+def admin_user(db, django_user_model, django_username_field, faker):
     user_model = django_user_model
     username_field = django_username_field
 
