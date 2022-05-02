@@ -7,18 +7,9 @@ from book.serializers import FavoriteBookSerializer
 from .models import Book, Comment
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
-from book.controllers import (
-    category_controller,
-    language_controller,
-    author_controller,
-    book_controller,
-    comment_controller)
-from .serializers import (
-    CategorySerializer,
-    AuthorSerializer,
-    BookSerializer,
-    CommentSerializer,
-    LanguageSerializer)
+from book.controllers import (category_controller, language_controller, author_controller, book_controller,
+                              comment_controller)
+from .serializers import (CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer)
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -127,7 +118,7 @@ class BookFavoriteAPIView(APIView):
 
         try:
             book = Book.objects.get(slug=book_slug)
-        except Book.DoesNotExist:
+        except ObjectDoesNotExist:
             raise NotFound('No article with this slug')
 
         if profile.has_favorited(book):
@@ -144,7 +135,7 @@ class BookFavoriteAPIView(APIView):
 
         try:
             book = Book.objects.get(slug=book_slug)
-        except Book.DoesNotExist:
+        except ObjectDoesNotExist:
             raise NotFound('No article with this slug')
 
         if not profile.has_favorited(book):
