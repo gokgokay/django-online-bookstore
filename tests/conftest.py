@@ -7,13 +7,13 @@ from rest_framework.test import APIClient
 from tests.test_book.fixtures import AuthorFactory, BookFactory, CategoryFactory, CommentFactory, LanguageFactory
 
 
+register(CategoryFactory)
+register(LanguageFactory)
 register(AuthorFactory)
 register(BookFactory)
-register(CategoryFactory)
 register(CommentFactory)
 register(UserFactory)
 register(ProfileFactory)
-register(LanguageFactory)
 
 
 @pytest.fixture

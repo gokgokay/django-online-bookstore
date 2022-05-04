@@ -12,7 +12,7 @@ class TestCategoryListAPIView:
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['categories']))
 
-    def test_empty_list(self, db, api_client, category_factory, check):
+    def test_empty_list(self, db, api_client, check):
         endpoint = '/api/category/'
         response = api_client.get(endpoint)
         check.is_(200, response.status_code)
@@ -28,7 +28,7 @@ class TestLanguageListAPIView:
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['languages']))
 
-    def test_empty_list(self, db, api_client, language_factory, check):
+    def test_empty_list(self, db, api_client, check):
         endpoint = '/api/language/'
         response = api_client.get(endpoint)
         check.is_(200, response.status_code)
@@ -44,7 +44,7 @@ class TestAuthorListAPIView:
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['authors']))
 
-    def test_empty_list(self, db, api_client, author_factory, check):
+    def test_empty_list(self, db, api_client, check):
         endpoint = '/api/author/'
         response = api_client.get(endpoint)
         check.is_(200, response.status_code)
@@ -60,7 +60,7 @@ class TestBookListAPIView:
         check.is_(200, response.status_code)
         check.is_(5, len(json.loads(response.content)['books']))
 
-    def test_empty_list(self, db, api_client, book_factory, check):
+    def test_empty_list(self, db, api_client, check):
         endpoint = '/api/book/'
         response = api_client.get(endpoint)
         check.is_(200, response.status_code)
@@ -78,7 +78,7 @@ class TestCommentsListCreateAPIView:
         check.is_(5, len(json.loads(response.content)['comments']))
 
     @factory.django.mute_signals(signals.pre_save, signals.post_save)
-    def test_empty_list(self, db, api_client, comment_factory, check):
+    def test_empty_list(self, db, api_client, check):
         endpoint = '/api/book/<book_slug>/comment/'
         response = api_client.get(endpoint)
         check.is_(200, response.status_code)
@@ -147,7 +147,38 @@ class TestCommentUpdateDestroyAPIView:
         profile = profile_factory()
         comment = comment_factory.create(book=book, profile=profile)
         endpoint = f'/api/book/{comment.book.slug}/comment/{comment.pk}/'
+
         api_client.force_authenticate(comment.profile.user)
         response = api_client.delete(endpoint)
 
         check.equal(204, response.status_code)
+
+
+class TestBookFavoriteAPIView:
+
+    def test_post(self, db, api_client, book_factory, profile_factory, check):
+        book = book_factory()
+        profile = profile_factory()
+        endpoint = f'/api/book/{book.slug}/favorite/'
+
+        api_client.force_authenticate(profile.user)
+        response = api_client.post(endpoint, format='json')
+
+        expected_data = {
+            'name': response.data['name'],
+            'author': response.data['author'],
+        }
+
+        check.equal(201, response.status_code)
+        check.equal(expected_data, json.loads(response.content))
+
+    def test_delete(self, db, api_client, book_factory, profile_factory, check):
+        book = book_factory()
+        profile = profile_factory()
+        profile.favorite(book)
+        endpoint = f'/api/book/{book.slug}/favorite/'
+
+        api_client.force_authenticate(profile.user)
+        response = api_client.delete(endpoint)
+
+        check.equal(200, response.status_code)

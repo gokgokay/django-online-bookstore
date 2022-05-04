@@ -7,7 +7,6 @@ class BaseJSONRenderer(JSONRenderer):
     object_label = 'object'
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
-        response = ''
         if 'ErrorDetail' in str(data):
             response = json.dumps({'errors': data})
         else:

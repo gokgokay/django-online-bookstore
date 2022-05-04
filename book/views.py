@@ -1,22 +1,15 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, serializers
 from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from book.permissions import IsOwnerOrReadOnly
+from book.serializers import FavoriteBookSerializer
 from .models import Book, Comment
+from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
-from book.controllers import (
-    category_controller,
-    language_controller,
-    author_controller,
-    book_controller,
-    comment_controller)
-from .serializers import (
-    CategorySerializer,
-    AuthorSerializer,
-    BookSerializer,
-    CommentSerializer,
-    LanguageSerializer)
+from book.controllers import (category_controller, language_controller, author_controller, book_controller,
+                              comment_controller)
+from .serializers import (CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer)
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -113,3 +106,42 @@ class CommentUpdateDestroyAPIView(generics.DestroyAPIView,
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     serializer_class = CommentSerializer
     queryset = comment_controller.list_comments_by_filters()
+
+
+class BookFavoriteAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = FavoriteBookSerializer
+
+    def post(self, request, book_slug=None):
+        profile = request.user.profile
+        serializer_context = {'request': request}
+
+        try:
+            book = Book.objects.get(slug=book_slug)
+        except ObjectDoesNotExist:
+            raise NotFound('No article with this slug')
+
+        if profile.has_favorited(book):
+            raise serializers.ValidationError('You already favorite this book')
+
+        profile.favorite(book)
+        serializer = self.serializer_class(book, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, book_slug=None):
+        profile = request.user.profile
+        serializer_context = {'request': request}
+
+        try:
+            book = Book.objects.get(slug=book_slug)
+        except ObjectDoesNotExist:
+            raise NotFound('No article with this slug')
+
+        if not profile.has_favorited(book):
+            raise NotFound('You already unfavorite this book')
+
+        profile.unfavorite(book)
+        serializer = self.serializer_class(book, context=serializer_context)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -66,8 +66,10 @@ class BookController:
         book.save()
         return book
 
-    def list_books_by_filters(self, name=None, category=None, author=None, language=None):
+    def list_books_by_filters(self, slug=None, name=None, category=None, author=None, language=None):
         query = Book.objects
+        if slug:
+            query = query.filter(slug=slug)
         if name:
             query = query.filter(name=name)
         if category:

@@ -14,7 +14,7 @@ class TestListProfileView:
         check.is_(5, len(json.loads(response.content)['profiles']))
 
     @factory.django.mute_signals(signals.pre_save, signals.post_save)
-    def test_empty_list(self, db, api_client, profile_factory, check):
+    def test_empty_list(self, db, api_client, check):
         endpoint = '/api/profiles/'
         response = api_client.get(endpoint)
         check.is_(200, response.status_code)
