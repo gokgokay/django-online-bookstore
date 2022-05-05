@@ -2,10 +2,10 @@ from rest_framework.exceptions import NotFound
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
-from .models import Profile
-from .serializers import ProfileSerializer
 from rest_framework.response import Response
 from rest_framework import serializers, status
+from .models import Profile
+from .serializers import ProfileSerializer
 from django.core.exceptions import ObjectDoesNotExist
 from profile.controllers import profile_controller
 
