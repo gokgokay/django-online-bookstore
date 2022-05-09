@@ -7,9 +7,9 @@ from book.serializers import FavoriteBookSerializer
 from .models import Book, Comment
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
+from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer
 from book.controllers import (category_controller, language_controller, author_controller, book_controller,
                               comment_controller)
-from .serializers import (CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer)
 
 
 class CategoryListAPIView(generics.ListAPIView):

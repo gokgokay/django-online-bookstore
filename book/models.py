@@ -39,8 +39,8 @@ class Language(TimeBaseModel):
 
 class Author(TimeBaseModel):
     name = models.CharField(max_length=250, db_index=True)
-    bio = models.TextField()
     slug = models.SlugField(max_length=250, unique=True)
+    bio = models.TextField()
 
     class Meta:
         ordering = ('name',)
@@ -60,12 +60,12 @@ class Book(TimeBaseModel):
     author = models.ForeignKey('book.Author', related_name='authors', on_delete=models.CASCADE)
     language = models.ForeignKey('book.Language', related_name='languages', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, db_index=True)
+    slug = models.SlugField(max_length=250, unique=True)
     image = models.ImageField(blank=True, upload_to='uploads', default='default-book-image.jpg')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=10)
     available = models.BooleanField(default=True)
     description = models.TextField()
-    slug = models.SlugField(max_length=250, unique=True)
 
     class Meta:
         ordering = ('name', 'language',)
