@@ -4,4 +4,4 @@ from profile.models import Profile
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'favorite_books', 'follows']
+    list_display = ['user', 'bio']
