@@ -21,7 +21,7 @@ SECRET_KEY = 'django-insecure-pt*m0!_y+b9)dr2uybs(na60t=820)pic8)c^qbv2adp$5wm@)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '54.74.195.145']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -146,7 +146,7 @@ MEDIA_URL = "/images/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 ACCOUNT_LOGOUT_ON_GET = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

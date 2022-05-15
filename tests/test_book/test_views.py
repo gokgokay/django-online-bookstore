@@ -156,6 +156,7 @@ class TestCommentUpdateDestroyAPIView:
 
 class TestBookFavoriteAPIView:
 
+    @factory.django.mute_signals(signals.pre_save, signals.post_save)
     def test_post(self, db, api_client, book_factory, profile_factory, check):
         book = book_factory()
         profile = profile_factory()
@@ -172,6 +173,7 @@ class TestBookFavoriteAPIView:
         check.equal(201, response.status_code)
         check.equal(expected_data, json.loads(response.content))
 
+    @factory.django.mute_signals(signals.pre_save, signals.post_save)
     def test_delete(self, db, api_client, book_factory, profile_factory, check):
         book = book_factory()
         profile = profile_factory()
