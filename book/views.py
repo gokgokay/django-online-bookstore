@@ -79,7 +79,7 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Comment.objects.select_related('book', 'profile')
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CommentSerializer
-    renderer_classes = [CommentJSONRenderer]
+    # renderer_classes = [CommentJSONRenderer]
 
     def list(self, request, *args, **kwargs):
         serializer_data = self.get_queryset()
