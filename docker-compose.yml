@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_DB=bookstore
+      - POSTGRES_USER=gokaygok
+      - POSTGRES_PASSWORD=12345
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      - POSTGRES_NAME=bookstore
+      - POSTGRES_USER=gokaygok
+      - POSTGRES_PASSWORD=12345
+    depends_on:
+      - db
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    ports:
+      - "5050:80"
+    restart: always
+    volumes:
+      - .:/code
