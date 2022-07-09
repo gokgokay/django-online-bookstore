@@ -7,6 +7,8 @@ from book.serializers import FavoriteBookSerializer
 from .models import Book, Comment
 from rest_framework.views import APIView
 from django.core.exceptions import ObjectDoesNotExist
+from .renderers import CategoryJSONRenderer, LanguageJSONRenderer, AuthorJSONRenderer, BookJSONRenderer, \
+    CommentJSONRenderer
 from .serializers import CategorySerializer, AuthorSerializer, BookSerializer, CommentSerializer, LanguageSerializer
 from book.controllers import (category_controller, language_controller, author_controller, book_controller,
                               comment_controller)
@@ -16,6 +18,7 @@ class CategoryListAPIView(generics.ListAPIView):
     queryset = category_controller.list_categories_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = CategorySerializer
+    # renderer_classes = [CategoryJSONRenderer]
 
     def list(self, request, *args, **kwargs):
         serializer_data = self.get_queryset()
@@ -30,6 +33,7 @@ class LanguageListAPIView(generics.ListAPIView):
     queryset = language_controller.list_languages_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = LanguageSerializer
+    # renderer_classes = [LanguageJSONRenderer]
 
     def list(self, request, *args, **kwargs):
         serializer_data = self.get_queryset()
@@ -44,6 +48,7 @@ class AuthorListAPIView(generics.ListAPIView):
     queryset = author_controller.list_authors_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = AuthorSerializer
+    # renderer_classes = [AuthorJSONRenderer]
 
     def list(self, request, *args, **kwargs):
         serializer_data = self.get_queryset()
@@ -58,6 +63,7 @@ class BookListAPIView(generics.ListAPIView):
     queryset = book_controller.list_books_by_filters()
     permission_classes = (AllowAny,)
     serializer_class = BookSerializer
+    # renderer_classes = [BookJSONRenderer]
 
     def list(self, request, *args, **kwargs):
         serializer_data = self.get_queryset()
@@ -73,6 +79,7 @@ class CommentsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Comment.objects.select_related('book', 'profile')
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = CommentSerializer
+    # renderer_classes = [CommentJSONRenderer]
 
     def list(self, request, *args, **kwargs):
         serializer_data = self.get_queryset()

@@ -22,7 +22,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ['name', 'price', 'available', 'created_at', 'updated_at']
+    list_display = ['name', 'price', 'available']
     list_filter = ['available', 'created_at', 'updated_at']
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('name',)}
@@ -30,4 +30,4 @@ class BookAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['profile']
+    list_display = ['profile', 'body']
