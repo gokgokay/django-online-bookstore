@@ -11,4 +11,6 @@ WORKDIR /code
 # install dependencies
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
+
+# copy the project
 COPY . /code/
