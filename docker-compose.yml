@@ -3,9 +3,11 @@ version: "3.9"
 services:
   db:
     image: postgres
+    restart: always
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    restart: always
+    env_file:
+      - ./.env.dev
     environment:
       - POSTGRES_DB=bookstore
       - POSTGRES_USER=gokaygok
@@ -13,11 +15,13 @@ services:
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     volumes:
       - .:/code
     ports:
       - "8000:8000"
-    restart: always
+    env_file:
+      - ./.env.dev
     environment:
       - POSTGRES_NAME=bookstore
       - POSTGRES_USER=gokaygok
@@ -26,11 +30,13 @@ services:
       - db
   pgadmin:
     image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
-      - PGADMIN_DEFAULT_PASSWORD=admin1234
-    ports:
-      - "5050:80"
     restart: always
     volumes:
       - .:/code
+    ports:
+      - "5050:80"
+    env_file:
+      - ./.env.dev
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
