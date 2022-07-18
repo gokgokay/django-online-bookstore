@@ -26,6 +26,7 @@ services:
       - POSTGRES_NAME=bookstore
       - POSTGRES_USER=gokaygok
       - POSTGRES_PASSWORD=12345
+      - DJANGO_SETTINGS_MODULE=bookstore.settings
     depends_on:
       - db
   pgadmin:
